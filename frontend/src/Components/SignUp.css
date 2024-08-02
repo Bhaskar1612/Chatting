@@ -1,0 +1,38 @@
+.create-member-container {
+    font-size: large;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 25px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: rgb(132, 0, 255);;
+}
+
+h2 {
+    color: chocolate;
+}
+
+input {
+    width: 100%;
+    padding: 7px;
+    margin-bottom: 16px;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
