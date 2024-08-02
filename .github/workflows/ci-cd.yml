@@ -65,15 +65,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Minikube
-        uses: manusa/actions-setup-minikube@v2.4.0
-        with:
-          minikube version: "v1.33.1"
-          kubernetes version: "v1.21.0"
-          driver: "docker"
-
-      - name: Start Minikube
-        run: minikube start --driver=docker
+      - name: Set up Kubernetes configuration
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
 
       - name: Apply Kubernetes manifests
         run: |
