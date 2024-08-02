@@ -59,7 +59,6 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/chat-frontend:latest
 
   deploy:
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
@@ -69,32 +68,12 @@ jobs:
       - name: Set up Minikube
         uses: manusa/actions-setup-minikube@v2.4.0
         with:
-          minikube version: 'v1.24.0'
-          kubernetes version: 'v1.21.0'
-          driver: 'docker'
+          minikube version: "v1.33.1"
+          kubernetes version: "v1.21.0"
+          driver: "docker"
 
       - name: Start Minikube
         run: minikube start --driver=docker
-
-      - name: Set up Minikube certificates
-        run: |
-          mkdir -p $HOME/.minikube/profiles/minikube
-          echo "${{ secrets.MINIKUBE_CLIENT_CERT }}" | base64 -d > $HOME/.minikube/profiles/minikube/client.crt
-          echo "${{ secrets.MINIKUBE_CLIENT_KEY }}" | base64 -d > $HOME/.minikube/profiles/minikube/client.key
-          echo "${{ secrets.MINIKUBE_CA_CERT }}" | base64 -d > $HOME/.minikube/ca.crt
-          chmod 600 $HOME/.minikube/profiles/minikube/client.crt
-          chmod 600 $HOME/.minikube/profiles/minikube/client.key
-          chmod 600 $HOME/.minikube/ca.crt
-
-      - name: Verify Minikube certificates
-        run: ls -l $HOME/.minikube/profiles/minikube
-
-      - name: Configure kubeconfig for Minikube
-        run: |
-          kubectl config set-cluster minikube --certificate-authority=$HOME/.minikube/ca.crt --embed-certs=true --server=https://$(minikube ip):8443
-          kubectl config set-credentials minikube --client-certificate=$HOME/.minikube/profiles/minikube/client.crt --client-key=$HOME/.minikube/profiles/minikube/client.key --embed-certs=true
-          kubectl config set-context minikube --cluster=minikube --user=minikube
-          kubectl config use-context minikube
 
       - name: Apply Kubernetes manifests
         run: |
