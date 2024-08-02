@@ -15,10 +15,10 @@ spec:
         app: chat-frontend
     spec:
       containers:
-      - name: chat-frontend
-        image: your-docker-username/chat-frontend:latest
-        ports:
-        - containerPort: 80
+        - name: chat-frontend
+          image: bhaskar1612/chat-frontend:latest
+          ports:
+            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -28,7 +28,7 @@ spec:
   selector:
     app: chat-frontend
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+    - protocol: TCP
+      port: 80
+      targetPort: 80
   type: LoadBalancer
