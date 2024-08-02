@@ -69,6 +69,7 @@ jobs:
         run: |
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
+          minikube start
 
       - name: Apply Kubernetes manifests
         run: |
