@@ -84,6 +84,14 @@ jobs:
       - name: List Minikube directory
         run: ls -l $HOME/.minikube/profiles/minikube
 
+      - name: Configure kubeconfig for Minikube
+        run: |
+          export MINIKUBE_HOME=$HOME/.minikube
+          kubectl config set-cluster minikube --certificate-authority=$MINIKUBE_HOME/ca.crt --embed-certs=true --server=https://$(minikube ip):8443
+          kubectl config set-credentials minikube --client-certificate=$MINIKUBE_HOME/profiles/minikube/client.crt --client-key=$MINIKUBE_HOME/profiles/minikube/client.key --embed-certs=true
+          kubectl config set-context minikube --cluster=minikube --user=minikube
+          kubectl config use-context minikube
+
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f kubernetes/backend-deployment.yaml
